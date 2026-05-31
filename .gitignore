@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# build folders
+dist/
+build/
+.next/
+client/dist/
+server/dist/
+
+# env files
+.env
+.env.local
+client/.env
+server/.env
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# system/editor
+.DS_Store
+.vscode/
+
+# database/generated files
+*.db
+*.sqlite
+*.sqlite3
+server/data/*.db
+server/data/*.sqlite
+server/data/*.sqlite3

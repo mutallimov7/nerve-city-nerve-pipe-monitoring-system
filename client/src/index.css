@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Theming variables ───────────────────────────────────────────────────── */
+:root {
+  /* Dark mode (default) */
+  --color-bg: #0a0b0f;
+  --color-surface: #111318;
+  --color-card: #161922;
+  --color-border: #1e2330;
+  --color-red: #e5193a;
+  --color-red-dark: #b01028;
+  --color-red-glow: rgba(229,25,58,0.3);
+  --color-green: #22c55e;
+  --color-green-glow: rgba(34,197,94,0.25);
+  --color-yellow: #eab308;
+  --color-yellow-glow: rgba(234,179,8,0.25);
+  --color-orange: #f97316;
+  --color-blue: #3b82f6;
+  --color-gray: #6b7280;
+  --color-text: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-dim: #64748b;
+
+  --color-glass-bg: rgba(22, 25, 34, 0.85);
+  --color-glass-border: rgba(30, 35, 48, 0.8);
+  --color-map-overlay: rgba(10, 11, 15, 0.8);
+}
+
+.theme-light {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-red: #dc2626;
+  --color-red-dark: #b91c1c;
+  --color-red-glow: rgba(220,38,38,0.2);
+  --color-green: #16a34a;
+  --color-green-glow: rgba(22,163,74,0.2);
+  --color-yellow: #d97706;
+  --color-yellow-glow: rgba(217,119,6,0.2);
+  --color-orange: #ea580c;
+  --color-blue: #2563eb;
+  --color-gray: #9ca3af;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-dim: #64748b;
+
+  --color-glass-bg: rgba(255, 255, 255, 0.92);
+  --color-glass-border: rgba(226, 232, 240, 0.9);
+  --color-map-overlay: rgba(255, 255, 255, 0.85);
+}
+
+/* ─── Base Reset ──────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  /* Larger base for jury readability — all Tailwind rem classes scale up automatically */
+  font-size: 17px;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+  height: 100%;
+  width: 100%;
+}
+
+#root { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-red-glow); }
+
+/* ─── Leaflet overrides (keep map exactly as-is) ─────────────────────────── */
+.leaflet-container {
+  background: #0d1117 !important;
+  font-family: 'Inter', sans-serif !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+/* Dark map tile tint — preserved exactly */
+.leaflet-tile { filter: brightness(0.7) saturate(0.6) hue-rotate(200deg); }
+.theme-light .leaflet-tile { filter: none; }
+.leaflet-popup-content-wrapper {
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border);
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6) !important;
+  font-size: 13px !important;
+}
+.theme-light .leaflet-popup-content-wrapper { box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important; }
+.leaflet-popup-tip { background: var(--color-card) !important; }
+.leaflet-control-zoom a { background: var(--color-card) !important; color: var(--color-text) !important; border-color: var(--color-border) !important; }
+.leaflet-control-zoom a:hover { background: var(--color-border) !important; }
+.leaflet-control-attribution { background: var(--color-map-overlay) !important; color: var(--color-dim) !important; font-size: 10px !important; }
+
+/* ─── Custom marker animations ────────────────────────────────────────────── */
+.nerve-marker-critical { animation: pulse-marker-red 2s ease-in-out infinite; }
+.nerve-marker-warning  { animation: pulse-marker-orange 2s ease-in-out infinite; }
+.nerve-marker-safe     { animation: pulse-marker-green 3s ease-in-out infinite; }
+@keyframes pulse-marker-red    { 0%,100% { filter: drop-shadow(0 0 4px var(--color-red-glow)); } 50% { filter: drop-shadow(0 0 12px var(--color-red)); } }
+@keyframes pulse-marker-orange { 0%,100% { filter: drop-shadow(0 0 4px var(--color-yellow-glow)); } 50% { filter: drop-shadow(0 0 10px var(--color-orange)); } }
+@keyframes pulse-marker-green  { 0%,100% { filter: drop-shadow(0 0 3px var(--color-green-glow)); } 50% { filter: drop-shadow(0 0 8px var(--color-green)); } }
+
+/* ─── Glass card ──────────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 14px;
+}
+.glass-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+}
+.theme-light .glass-card-hover:hover {
+  box-shadow: 0 8px 22px rgba(0,0,0,0.07);
+}
+
+/* ─── Glow borders ────────────────────────────────────────────────────────── */
+.glow-red    { box-shadow: 0 0 0 1px var(--color-red-glow),    0 0 18px var(--color-red-glow); }
+.glow-green  { box-shadow: 0 0 0 1px var(--color-green-glow),  0 0 18px var(--color-green-glow); }
+.glow-yellow { box-shadow: 0 0 0 1px var(--color-yellow-glow), 0 0 18px var(--color-yellow-glow); }
+.glow-orange { box-shadow: 0 0 0 1px var(--color-yellow-glow), 0 0 18px var(--color-yellow-glow); }
+
+/* ─── Value flash ─────────────────────────────────────────────────────────── */
+.value-flash { animation: value-flash 0.6s ease-out; }
+@keyframes value-flash {
+  0%   { background: var(--color-red-glow); }
+  100% { background: transparent; }
+}
+
+/* ─── Page layout ─────────────────────────────────────────────────────────── */
+.page-content {
+  /* Parent flex-1 container in App.tsx is the real scroll container.
+     page-content just needs padding and a min-height so content can grow. */
+  min-height: 100%;
+  padding: 22px 26px 40px;
+  background: var(--color-bg);
+}
+
+/* ─── Typography scale-up (jury readability) ─────────────────────────────── */
+/* Page headings */
+.page-content h1 { font-size: 1.35rem !important; font-weight: 700; letter-spacing: -0.01em; }
+/* Section headings */
+.page-content h3 { font-size: 0.9rem !important; font-weight: 600; }
+/* Small labels */
+.page-content .label-xs  { font-size: 0.72rem !important; }
+/* Table body text */
+.page-content table td,
+.page-content table th { font-size: 0.78rem !important; }
+/* Sensor stream key-value */
+.sensor-row-label { font-size: 0.72rem !important; }
+.sensor-row-value { font-size: 0.78rem !important; }
+/* Metric card value */
+.metric-value { font-size: 1.2rem !important; font-weight: 700; }
+/* Alert text */
+.alert-title  { font-size: 0.78rem !important; }
+.alert-body   { font-size: 0.7rem  !important; }
+
+/* ─── Recharts overrides ─────────────────────────────────────────────────── */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: var(--color-card) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45) !important;
+  font-size: 12px !important;
+}
+.theme-light .recharts-tooltip-wrapper .recharts-default-tooltip {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.09) !important;
+}
+.recharts-cartesian-grid line  { stroke: var(--color-border) !important; }
+.recharts-text                 { font-size: 11px !important; fill: var(--color-dim) !important; }
+.recharts-legend-item-text     { font-size: 12px !important; }
